@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>غرفة الأمن السيبراني — 7 إلى 9 سنوات</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #1D9E75;
+    --teal-light: #E1F5EE;
+    --teal-dark: #085041;
+    --gold: #EF9F27;
+    --gold-light: #FAEEDA;
+    --red: #E24B4A;
+    --red-light: #FCEBEB;
+    --navy: #0a1628;
+    --navy2: #0f2040;
+    --navy3: #162d54;
+    --card-bg: rgba(255,255,255,0.06);
+    --card-border: rgba(255,255,255,0.12);
+    --text: #f0f4ff;
+    --text-muted: rgba(240,244,255,0.6);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--navy);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    direction: rtl;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 20%, rgba(29,158,117,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 80%, rgba(239,159,39,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 50% 50%, rgba(29,158,117,0.05) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Floating particles */
+  .particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--teal);
+    opacity: 0.15;
+    animation: float linear infinite;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.15; }
+    90% { opacity: 0.15; }
+    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+  }
+
+  /* ===== SCREENS ===== */
+  .screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    padding: 20px;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    overflow-y: auto;
+  }
+
+  .screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.97);
+  }
+
+  /* ===== WELCOME SCREEN ===== */
+  #screen-welcome {
+    text-align: center;
+    gap: 24px;
+  }
+
+  .mascot {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, var(--teal), #0f6e56);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+    margin: 0 auto;
+    box-shadow: 0 0 40px rgba(29,158,117,0.4);
+    animation: pulse 2s ease-in-out infinite;
+    border: 3px solid rgba(29,158,117,0.5);
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 40px rgba(29,158,117,0.4); transform: scale(1); }
+    50% { box-shadow: 0 0 70px rgba(29,158,117,0.7); transform: scale(1.04); }
+  }
+
+  .welcome-title {
+    font-size: clamp(28px, 6vw, 48px);
+    font-weight: 900;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .welcome-title span { color: var(--teal); }
+
+  .welcome-sub {
+    font-size: clamp(15px, 3vw, 20px);
+    color: var(--text-muted);
+    max-width: 500px;
+    line-height: 1.7;
+  }
+
+  .name-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .name-label {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .name-input {
+    width: 100%;
+    background: var(--card-bg);
+    border: 1.5px solid var(--card-border);
+    border-radius: 16px;
+    padding: 14px 20px;
+    font-size: 18px;
+    font-family: 'Tajawal', sans-serif;
+    color: var(--text);
+    text-align: center;
+    outline: none;
+    transition: border-color 0.3s;
+    direction: rtl;
+  }
+
+  .name-input:focus { border-color: var(--teal); }
+  .name-input::placeholder { color: var(--text-muted); }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--teal), #0f6e56);
+    border: none;
+    border-radius: 50px;
+    padding: 16px 48px;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'Tajawal', sans-serif;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 8px 30px rgba(29,158,117,0.35);
+  }
+
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(29,158,117,0.5); }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-secondary {
+    background: var(--card-bg);
+    border: 1.5px solid var(--card-border);
+    border-radius: 50px;
+    padding: 14px 40px;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Tajawal', sans-serif;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+
+  /* ===== QUIZ SCREEN ===== */
+  #screen-quiz {
+    gap: 28px;
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .quiz-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .progress-bar-wrap {
+    flex: 1;
+    height: 8px;
+    background: var(--card-bg);
+    border-radius: 99px;
+    overflow: hidden;
+    border: 0.5px solid var(--card-border);
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), #5DCAA5);
+    border-radius: 99px;
+    transition: width 0.5s ease;
+  }
+
+  .question-counter {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--teal);
+    white-space: nowrap;
+  }
+
+  .greeting-chip {
+    background: var(--card-bg);
+    border: 0.5px solid var(--card-border);
+    border-radius: 50px;
+    padding: 8px 18px;
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .question-card {
+    width: 100%;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 28px 32px;
+    backdrop-filter: blur(10px);
+  }
+
+  .question-scene {
+    font-size: 64px;
+    text-align: center;
+    margin-bottom: 16px;
+    animation: sceneIn 0.4s ease;
+  }
+
+  @keyframes sceneIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .question-text {
+    font-size: clamp(16px, 3vw, 22px);
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .choices-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    width: 100%;
+  }
+
+  .choice-btn {
+    background: var(--card-bg);
+    border: 1.5px solid var(--card-border);
+    border-radius: 20px;
+    padding: 20px 16px;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Tajawal', sans-serif;
+    color: var(--text);
+    text-align: center;
+  }
+
+  .choice-btn:hover:not(:disabled) {
+    border-color: var(--teal);
+    background: rgba(29,158,117,0.12);
+    transform: translateY(-3px);
+  }
+
+  .choice-icon { font-size: 40px; }
+
+  .choice-text {
+    font-size: clamp(13px, 2.5vw, 16px);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .choice-btn.correct {
+    border-color: var(--teal);
+    background: rgba(29,158,117,0.2);
+    animation: correctPop 0.4s ease;
+  }
+
+  .choice-btn.wrong {
+    border-color: var(--red);
+    background: rgba(226,75,74,0.15);
+    animation: shake 0.4s ease;
+  }
+
+  @keyframes correctPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+  }
+
+  /* mascot feedback */
+  .mascot-feedback {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 16px 20px;
+    width: 100%;
+    animation: slideUp 0.35s ease;
+    min-height: 72px;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .mascot-small {
+    font-size: 36px;
+    flex-shrink: 0;
+    animation: mascotBounce 0.5s ease;
+  }
+
+  @keyframes mascotBounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  .feedback-text {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  /* ===== RESULT SCREEN ===== */
+  #screen-result {
+    gap: 24px;
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .result-trophy {
+    font-size: 80px;
+    animation: trophySpin 0.8s ease;
+  }
+
+  @keyframes trophySpin {
+    0% { transform: rotate(-20deg) scale(0.5); opacity: 0; }
+    60% { transform: rotate(10deg) scale(1.1); }
+    100% { transform: rotate(0deg) scale(1); opacity: 1; }
+  }
+
+  .result-title {
+    font-size: clamp(24px, 5vw, 38px);
+    font-weight: 900;
+  }
+
+  .score-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .star {
+    font-size: 36px;
+    transition: transform 0.3s;
+    filter: grayscale(1);
+    opacity: 0.4;
+  }
+
+  .star.lit {
+    filter: none;
+    opacity: 1;
+    animation: starPop 0.4s ease forwards;
+  }
+
+  @keyframes starPop {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+
+  .result-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 24px 32px;
+    width: 100%;
+    backdrop-filter: blur(10px);
+  }
+
+  .result-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), #BA7517);
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 18px;
+    border-radius: 50px;
+    margin-bottom: 16px;
+  }
+
+  .qr-placeholder {
+    width: 100px;
+    height: 100px;
+    background: white;
+    border-radius: 12px;
+    margin: 12px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #333;
+    text-align: center;
+    padding: 8px;
+    line-height: 1.4;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* ===== STORY SCREEN ===== */
+  #screen-story {
+    gap: 20px;
+    max-width: 720px;
+    width: 100%;
+  }
+
+  .story-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .story-title-chip {
+    background: linear-gradient(135deg, rgba(29,158,117,0.2), rgba(29,158,117,0.05));
+    border: 1px solid rgba(29,158,117,0.3);
+    border-radius: 50px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--teal);
+  }
+
+  .story-step-counter {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .story-scene-card {
+    width: 100%;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 28px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+  }
+
+  .story-visual {
+    background: linear-gradient(135deg, var(--navy2), var(--navy3));
+    padding: 32px;
+    text-align: center;
+    font-size: 80px;
+    position: relative;
+    min-height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .story-visual-label {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.4);
+    border-radius: 50px;
+    padding: 4px 14px;
+    font-size: 12px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .story-body { padding: 24px 28px; }
+
+  .character-name {
+    font-size: 13px;
+    color: var(--teal);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .story-text {
+    font-size: clamp(16px, 2.8vw, 20px);
+    font-weight: 600;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .story-question {
+    font-size: clamp(15px, 2.5vw, 18px);
+    color: var(--gold);
+    font-weight: 700;
+    margin-top: 8px;
+  }
+
+  .story-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .story-choice {
+    background: var(--card-bg);
+    border: 1.5px solid var(--card-border);
+    border-radius: 18px;
+    padding: 16px 22px;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    font-size: clamp(14px, 2.5vw, 17px);
+    font-weight: 600;
+    color: var(--text);
+    text-align: right;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .story-choice:hover:not(:disabled) {
+    border-color: var(--teal);
+    background: rgba(29,158,117,0.1);
+    transform: translateX(-4px);
+  }
+
+  .choice-letter {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 1.5px solid var(--card-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+    transition: all 0.25s;
+  }
+
+  .story-choice:hover .choice-letter {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: white;
+  }
+
+  .story-choice.correct-choice {
+    border-color: var(--teal);
+    background: rgba(29,158,117,0.15);
+  }
+
+  .story-choice.correct-choice .choice-letter {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: white;
+  }
+
+  .story-choice.wrong-choice {
+    border-color: var(--red);
+    background: rgba(226,75,74,0.1);
+    animation: shake 0.4s ease;
+  }
+
+  .story-feedback {
+    width: 100%;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    animation: slideUp 0.35s ease;
+  }
+
+  .feedback-icon { font-size: 32px; flex-shrink: 0; }
+
+  .feedback-lesson {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 4px;
+  }
+
+  .feedback-detail {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ===== STORY END SCREEN ===== */
+  #screen-story-end {
+    gap: 24px;
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .lesson-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    text-align: right;
+  }
+
+  .lesson-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(29,158,117,0.25);
+    border-radius: 16px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: slideUp 0.4s ease both;
+  }
+
+  .lesson-icon { font-size: 26px; flex-shrink: 0; }
+  .lesson-text { font-size: 15px; font-weight: 600; line-height: 1.5; }
+
+  /* ===== UTILITIES ===== */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--card-border);
+  }
+
+  .text-muted { color: var(--text-muted); font-size: 14px; }
+
+  .shimmer {
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  /* Confetti layer */
+  #confetti-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    animation: confettiFall linear forwards;
+  }
+
+  @keyframes confettiFall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* Responsive */
+  @media (max-width: 500px) {
+    .choices-grid { grid-template-columns: 1fr; }
+    .story-visual { font-size: 60px; min-height: 120px; }
+    .btn-row { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating particles -->
+<div class="particles" id="particles"></div>
+<div id="confetti-layer"></div>
+
+<!-- ============ SCREEN 1: WELCOME ============ -->
+<div class="screen" id="screen-welcome">
+  <div class="mascot">🤖</div>
+  <h1 class="welcome-title">أهلاً بك في<br><span>رحلة الأمان الرقمي!</span></h1>
+  <p class="welcome-sub">أنا مستكشف! ساعدني أعرف ماذا تعرف عن السلامة الرقمية قبل أن تبدأ مغامرتك 🚀</p>
+
+  <div class="name-section">
+    <span class="name-label">اكتب اسمك أولاً</span>
+    <input type="text" class="name-input" id="playerName" placeholder="اسمك هنا..." maxlength="20">
+  </div>
+
+  <button class="btn-primary" onclick="startQuiz()">ابدأ الاختبار ▶</button>
+  <p class="text-muted">5 أسئلة بسيطة • لا توجد إجابات خاطئة تماماً!</p>
+</div>
+
+<!-- ============ SCREEN 2: QUIZ ============ -->
+<div class="screen hidden" id="screen-quiz">
+  <div class="greeting-chip">
+    <span>👋</span>
+    <span id="quizGreeting">مرحباً يا بطل!</span>
+  </div>
+
+  <div class="quiz-header" style="width:100%; max-width:700px;">
+    <span class="question-counter" id="questionCounter">السؤال 1 من 5</span>
+    <div class="progress-bar-wrap" style="flex:1; margin: 0 16px;">
+      <div class="progress-bar-fill" id="progressBar" style="width:20%"></div>
+    </div>
+    <span style="font-size:20px;" id="progressEmoji">⭐</span>
+  </div>
+
+  <div class="question-card" style="max-width:700px; width:100%;">
+    <div class="question-scene" id="questionScene">📱</div>
+    <p class="question-text" id="questionText">جار تحميل السؤال...</p>
+  </div>
+
+  <div class="choices-grid" style="max-width:700px; width:100%;" id="choicesGrid"></div>
+
+  <div class="mascot-feedback" style="max-width:700px;" id="mascotFeedback">
+    <span class="mascot-small">🤖</span>
+    <p class="feedback-text" id="feedbackText">فكّر جيداً واختر الإجابة التي تراها صحيحة! 💭</p>
+  </div>
+</div>
+
+<!-- ============ SCREEN 3: RESULT ============ -->
+<div class="screen hidden" id="screen-result">
+  <div class="result-trophy" id="resultTrophy">🏆</div>
+  <h2 class="result-title" id="resultTitle">أداء رائع!</h2>
+  <div class="score-display" id="starsDisplay"></div>
+
+  <div class="result-card">
+    <div class="result-badge" id="resultBadge">مستكشف ذهبي ⭐</div>
+    <p style="font-size:15px; color:var(--text-muted); margin-bottom:16px;" id="resultMsg">لقد أجبت على X من 5 أسئلة بشكل صحيح!</p>
+
+    <div class="qr-placeholder">
+      <div style="font-size:28px; margin-bottom:4px;">📋</div>
+      <div style="font-size:10px; color:#555;">بطاقتك<br>القبلية</div>
+    </div>
+
+    <p style="font-size:12px; color:#888; margin-top:8px;">احتفظ بهذه البطاقة حتى نهاية الزيارة</p>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" onclick="startStory()">انطلق لمغامرة زيد ▶</button>
+    <button class="btn-secondary" onclick="printCard()">🖨️ طباعة البطاقة</button>
+  </div>
+</div>
+
+<!-- ============ SCREEN 4: STORY - ZAID ============ -->
+<div class="screen hidden" id="screen-story">
+  <div class="story-header" style="max-width:720px; width:100%;">
+    <div class="story-title-chip">🎮 مغامرة زيد الرقمية</div>
+    <span class="story-step-counter" id="storyCounter">موقف 1 من 5</span>
+  </div>
+
+  <div class="story-scene-card" style="max-width:720px; width:100%;">
+    <div class="story-visual" id="storyVisual">
+      <span id="storyEmoji1">🧒</span>
+      <span id="storyEmoji2">📱</span>
+      <div class="story-visual-label" id="storySceneLabel">زيد في غرفته</div>
+    </div>
+    <div class="story-body">
+      <div class="character-name">زيد — طفل في مثل عمرك 👦</div>
+      <p class="story-text" id="storyText">جار تحميل القصة...</p>
+      <p class="story-question" id="storyQuestion">ماذا يجب أن يفعل زيد؟</p>
+    </div>
+  </div>
+
+  <div class="story-choices" style="max-width:720px; width:100%;" id="storyChoices"></div>
+
+  <div class="story-feedback hidden" id="storyFeedback" style="max-width:720px;">
+    <span class="feedback-icon" id="feedbackIcon">✅</span>
+    <div>
+      <p class="feedback-lesson" id="feedbackLesson">ممتاز!</p>
+      <p class="feedback-detail" id="feedbackDetail">شرح الإجابة...</p>
+    </div>
+  </div>
+
+  <button class="btn-primary hidden" id="nextStoryBtn" onclick="nextStory()" style="margin-top:4px;">
+    التالي ▶
+  </button>
+</div>
+
+<!-- ============ SCREEN 5: STORY END ============ -->
+<div class="screen hidden" id="screen-story-end">
+  <div style="font-size:80px; animation: trophySpin 0.8s ease;">🦸</div>
+  <h2 class="result-title">أنت بطل الأمان السيبراني! 🛡️</h2>
+  <p class="welcome-sub">لقد تعلّمت مع زيد كيف تحمي نفسك في العالم الرقمي</p>
+
+  <div class="lesson-cards" style="max-width:600px;">
+    <div class="lesson-card" style="animation-delay:0.1s">
+      <span class="lesson-icon">🚫</span>
+      <span class="lesson-text">لا نرسل عنواننا أو معلوماتنا الشخصية للغرباء</span>
+    </div>
+    <div class="lesson-card" style="animation-delay:0.2s">
+      <span class="lesson-icon">❌</span>
+      <span class="lesson-text">لا نضغط على الروابط أو النوافذ المريبة</span>
+    </div>
+    <div class="lesson-card" style="animation-delay:0.3s">
+      <span class="lesson-icon">🔒</span>
+      <span class="lesson-text">لا نشارك كلمة مرورنا مع أي أحد حتى الأصدقاء</span>
+    </div>
+    <div class="lesson-card" style="animation-delay:0.4s">
+      <span class="lesson-icon">📸</span>
+      <span class="lesson-text">لا نشارك صور بطاقات العائلة البنكية</span>
+    </div>
+    <div class="lesson-card" style="animation-delay:0.5s">
+      <span class="lesson-icon">👨‍👩‍👧</span>
+      <span class="lesson-text">عند الشك دائماً نخبر أحد والدينا</span>
+    </div>
+  </div>
+
+  <div class="btn-row" style="margin-top:8px;">
+    <button class="btn-primary" onclick="showPostTest()">اختبار ما بعد الزيارة 🏆</button>
+    <button class="btn-secondary" onclick="printFinalCard()">🖨️ طباعة الشهادة</button>
+  </div>
+</div>
+
+
+<script>
+// ===== DATA =====
+const quizQuestions = [
+  {
+    scene: '📱💬',
+    text: 'وصلتك رسالة من شخص غريب يقول: "أرسل لي عنوان منزلك لتصلك هدية!"',
+    choices: [
+      { icon: '🗑️', text: 'أحذف الرسالة فوراً ولا أرد', correct: true },
+      { icon: '🏠', text: 'أكتب العنوان وأرسله', correct: false },
+    ],
+    feedbackCorrect: '🌟 ممتاز! لا نرسل عنواننا أبداً لشخص لا نعرفه',
+    feedbackWrong: '🤔 تمهّل! الغرباء على الإنترنت قد يكونون خطرين. أحذف الرسالة دائماً'
+  },
+  {
+    scene: '💻🎁',
+    text: 'أثناء استخدامك الحاسوب ظهرت نافذة: "اضغط هنا لتربح جائزة!"',
+    choices: [
+      { icon: '✖️', text: 'أضغط زر الإغلاق X', correct: true },
+      { icon: '🎁', text: 'أضغط على الزر البراق', correct: false },
+    ],
+    feedbackCorrect: '🛡️ رائع! هذه الرسائل مزيفة تماماً. دائماً أغلق النوافذ المريبة',
+    feedbackWrong: '⚠️ انتبه! هذه الرسائل خدعة للإيقاع بك. أغلق النافذة فوراً بزر X'
+  },
+  {
+    scene: '💳📸',
+    text: 'طلبت منك لعبة إلكترونية صورة البطاقة البنكية لعائلتك للتسجيل',
+    choices: [
+      { icon: '📷', text: 'ألتقط صورة البطاقة وأرسلها', correct: false },
+      { icon: '🚫', text: 'أتجاهل وأغلق اللعبة', correct: true },
+    ],
+    feedbackCorrect: '💪 صحيح! بيانات البطاقة البنكية سرية جداً. لا نشاركها مع أحد',
+    feedbackWrong: '🔴 خطر! بيانات البطاقة البنكية سرية. أخبر والديك فوراً إذا طلبها أحد'
+  },
+  {
+    scene: '👤🎮',
+    text: 'صديق في لعبتك المفضلة يطلب منك كلمة مرورك الخاصة لتساعده',
+    choices: [
+      { icon: '🔑', text: 'أعطيه كلمة المرور', correct: false },
+      { icon: '🤐', text: 'أرفض وأحافظ على سري', correct: true },
+    ],
+    feedbackCorrect: '🏅 أحسنت! كلمة المرور سرك أنت فقط. لا تشاركها مع أي أحد',
+    feedbackWrong: '❌ لا! كلمة المرور سرية جداً حتى مع الأصدقاء. لا تشاركها أبداً'
+  },
+  {
+    scene: '🌐👀',
+    text: 'تصفحت الإنترنت ورأيت محتوى غير مناسب أو مخيف',
+    choices: [
+      { icon: '😶', text: 'أخفي الأمر ولا أخبر أحداً', correct: false },
+      { icon: '👨‍👩‍👧', text: 'أغلق وأخبر أحد والديّ فوراً', correct: true },
+    ],
+    feedbackCorrect: '❤️ ممتاز! الوالدان دائماً أفضل من يساعدنا في مثل هذه المواقف',
+    feedbackWrong: '💛 دائماً أخبر والديك! إخبارهم يحميك ولن يغضبوا منك'
+  }
+];
+
+const storyScenes = [
+  {
+    emoji1: '🧒', emoji2: '📱', sceneLabel: 'زيد يتصفح هاتفه',
+    text: 'يلعب زيد على هاتفه ويتلقى إشعاراً: "مبروك! لقد ربحت جائزة! اضغط هنا لتستلمها".',
+    question: 'ماذا يجب أن يفعل زيد؟',
+    choices: [
+      { text: 'يضغط على الرابط ليستلم الجائزة', correct: false },
+      { text: 'يتجاهل الرسالة ويخبر والديه', correct: true },
+      { text: 'يرسل الرسالة لأصدقائه', correct: false },
+    ],
+    lesson: '🎯 درس مهم',
+    lessonDetail: 'رسائل "ربحت جائزة" خدعة! الشركات الحقيقية لا ترسل إشعارات مفاجئة. أخبر والديك دائماً'
+  },
+  {
+    emoji1: '🧒', emoji2: '🎮', sceneLabel: 'زيد يلعب أونلاين',
+    text: 'يظهر في لعبة زيد طلب صداقة من شخص غريب "AlMajhoul99" يقول إنه ابن خاله.',
+    question: 'هل يقبل زيد طلب الصداقة؟',
+    choices: [
+      { text: 'نعم، يقبل لأنه يدّعي أنه من العائلة', correct: false },
+      { text: 'يرفض ويخبر والديه بالأمر', correct: true },
+    ],
+    lesson: '🛡️ الهوية على الإنترنت',
+    lessonDetail: 'لا يمكننا التحقق من هوية أحد على الإنترنت. لا نقبل صداقات الغرباء ونخبر الأهل'
+  },
+  {
+    emoji1: '🧒', emoji2: '💻', sceneLabel: 'زيد ينشئ حساباً',
+    text: 'يريد زيد التسجيل في موقع ألعاب ويطلب منه رقم هاتف والده وعنوان المنزل.',
+    question: 'ماذا يفعل زيد؟',
+    choices: [
+      { text: 'يكتب المعلومات ليتمكن من اللعب', correct: false },
+      { text: 'يسأل والديه أولاً قبل إدخال أي معلومات', correct: true },
+    ],
+    lesson: '🔐 المعلومات الشخصية',
+    lessonDetail: 'المعلومات الشخصية مثل الهاتف والعنوان لا تُشارك إلا بإذن الوالدين'
+  },
+  {
+    emoji1: '🧒', emoji2: '🌐', sceneLabel: 'زيد يبحث في الإنترنت',
+    text: 'أثناء بحثه في الإنترنت وجد زيد صوراً مخيفة وغير لائقة في نتائج البحث.',
+    question: 'ما الخطوة الصحيحة التي يتخذها زيد؟',
+    choices: [
+      { text: 'يكمل التصفح ويتجاهل الأمر', correct: false },
+      { text: 'يشارك الصور مع أصدقائه', correct: false },
+      { text: 'يغلق الصفحة فوراً ويخبر والديه', correct: true },
+    ],
+    lesson: '❤️ التواصل مع الأهل',
+    lessonDetail: 'عند رؤية أي محتوى مزعج، أغلق الصفحة مباشرة وأخبر والديك. لن يغضبوا منك!'
+  },
+  {
+    emoji1: '🧒', emoji2: '🔑', sceneLabel: 'زيد وكلمة المرور',
+    text: 'صديقه الحقيقي في المدرسة طلب منه كلمة مرور حسابه في لعبة "Minecraft" ليساعده.',
+    question: 'ماذا يفعل زيد؟',
+    choices: [
+      { text: 'يعطيه كلمة المرور لأنه صديقه الحقيقي', correct: false },
+      { text: 'يرفض بلطف ويقول إن كلمة المرور سرية', correct: true },
+    ],
+    lesson: '🔒 كلمة المرور سر خاص',
+    lessonDetail: 'كلمة المرور سرية حتى مع أقرب الأصدقاء! لو عرفها أحد قد يسرق حسابك'
+  }
+];
+
+// ===== STATE =====
+let playerName = '';
+let currentQuestion = 0;
+let score = 0;
+let preScore = 0;
+let currentStory = 0;
+let answered = false;
+let storyAnswered = false;
+
+// ===== PARTICLES =====
+function createParticles() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 6 + 2;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      animation-duration:${Math.random()*15+10}s;
+      animation-delay:${Math.random()*10}s;
+    `;
+    container.appendChild(p);
+  }
+}
+
+// ===== NAVIGATION =====
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  window.scrollTo(0, 0);
+}
+
+// ===== QUIZ =====
+function startQuiz() {
+  playerName = document.getElementById('playerName').value.trim() || 'بطل';
+  document.getElementById('quizGreeting').textContent = `مرحباً يا ${playerName}!`;
+  currentQuestion = 0;
+  score = 0;
+  showScreen('screen-quiz');
+  loadQuestion();
+}
+
+function loadQuestion() {
+  if (currentQuestion >= quizQuestions.length) { showResult(); return; }
+  answered = false;
+  const q = quizQuestions[currentQuestion];
+  const pct = ((currentQuestion + 1) / quizQuestions.length) * 100;
+
+  document.getElementById('questionCounter').textContent = `السؤال ${currentQuestion + 1} من ${quizQuestions.length}`;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressEmoji').textContent = ['⭐','🌟','💫','✨','🏆'][currentQuestion] || '⭐';
+  document.getElementById('questionScene').textContent = q.scene;
+  document.getElementById('questionText').textContent = q.text;
+  document.getElementById('feedbackText').textContent = 'فكّر جيداً واختر الإجابة التي تراها صحيحة! 💭';
+
+  const grid = document.getElementById('choicesGrid');
+  grid.innerHTML = '';
+  q.choices.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.innerHTML = `<span class="choice-icon">${c.icon}</span><span class="choice-text">${c.text}</span>`;
+    btn.onclick = () => answerQuestion(i, c.correct, btn);
+    grid.appendChild(btn);
+  });
+}
+
+function answerQuestion(idx, correct, btn) {
+  if (answered) return;
+  answered = true;
+  const q = quizQuestions[currentQuestion];
+  const allBtns = document.querySelectorAll('.choice-btn');
+  allBtns.forEach(b => b.disabled = true);
+
+  if (correct) {
+    score++;
+    btn.classList.add('correct');
+    document.getElementById('feedbackText').textContent = q.feedbackCorrect;
+    document.getElementById('mascotFeedback').style.borderColor = 'rgba(29,158,117,0.4)';
+  } else {
+    btn.classList.add('wrong');
+    document.getElementById('feedbackText').textContent = q.feedbackWrong;
+    // highlight correct
+    allBtns.forEach((b, i) => { if (q.choices[i] && q.choices[i].correct) b.classList.add('correct'); });
+  }
+
+  setTimeout(() => {
+    currentQuestion++;
+    loadQuestion();
+  }, 2200);
+}
+
+function showResult() {
+  preScore = score;
+  showScreen('screen-result');
+
+  const trophy = score >= 4 ? '🏆' : score >= 2 ? '🥈' : '🎖️';
+  const title = score >= 4 ? 'أداء رائع!' : score >= 2 ? 'جيد جداً!' : 'واصل التعلم!';
+  const badge = score >= 4 ? 'مستكشف ذهبي ⭐' : score >= 2 ? 'مستكشف فضي 🥈' : 'مستكشف برونزي 🥉';
+  const msg = `لقد أجبت على ${score} من 5 أسئلة بشكل صحيح قبل الزيارة!`;
+
+  document.getElementById('resultTrophy').textContent = trophy;
+  document.getElementById('resultTitle').textContent = title;
+  document.getElementById('resultBadge').textContent = badge;
+  document.getElementById('resultMsg').textContent = msg;
+
+  const stars = document.getElementById('starsDisplay');
+  stars.innerHTML = '';
+  for (let i = 0; i < 5; i++) {
+    const s = document.createElement('span');
+    s.className = 'star' + (i < score ? ' lit' : '');
+    s.textContent = '⭐';
+    s.style.animationDelay = (i * 0.15) + 's';
+    stars.appendChild(s);
+  }
+
+  if (score >= 4) confetti();
+}
+
+// ===== STORY =====
+function startStory() {
+  currentStory = 0;
+  showScreen('screen-story');
+  loadStoryScene();
+}
+
+function loadStoryScene() {
+  if (currentStory >= storyScenes.length) {
+    showScreen('screen-story-end');
+    confetti();
+    return;
+  }
+  storyAnswered = false;
+  const s = storyScenes[currentStory];
+
+  document.getElementById('storyCounter').textContent = `موقف ${currentStory + 1} من ${storyScenes.length}`;
+  document.getElementById('storyEmoji1').textContent = s.emoji1;
+  document.getElementById('storyEmoji2').textContent = s.emoji2;
+  document.getElementById('storySceneLabel').textContent = s.sceneLabel;
+  document.getElementById('storyText').textContent = s.text;
+  document.getElementById('storyQuestion').textContent = s.question;
+
+  document.getElementById('storyFeedback').classList.add('hidden');
+  document.getElementById('nextStoryBtn').classList.add('hidden');
+
+  const choicesDiv = document.getElementById('storyChoices');
+  choicesDiv.innerHTML = '';
+  const letters = ['أ', 'ب', 'ج', 'د'];
+  s.choices.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'story-choice';
+    btn.innerHTML = `<span class="choice-letter">${letters[i]}</span><span>${c.text}</span>`;
+    btn.onclick = () => answerStory(c.correct, btn);
+    choicesDiv.appendChild(btn);
+  });
+}
+
+function answerStory(correct, btn) {
+  if (storyAnswered) return;
+  storyAnswered = true;
+  const s = storyScenes[currentStory];
+  const allBtns = document.querySelectorAll('.story-choice');
+  allBtns.forEach(b => b.disabled = true);
+
+  if (correct) {
+    btn.classList.add('correct-choice');
+  } else {
+    btn.classList.add('wrong-choice');
+    allBtns.forEach(b => {
+      const txt = b.querySelector('span:last-child').textContent;
+      const found = s.choices.find(c => c.correct && c.text === txt);
+      if (found) b.classList.add('correct-choice');
+    });
+  }
+
+  const fb = document.getElementById('storyFeedback');
+  document.getElementById('feedbackIcon').textContent = correct ? '✅' : '💡';
+  document.getElementById('feedbackLesson').textContent = s.lesson;
+  document.getElementById('feedbackDetail').textContent = s.lessonDetail;
+  fb.classList.remove('hidden');
+  document.getElementById('nextStoryBtn').classList.remove('hidden');
+}
+
+function nextStory() {
+  currentStory++;
+  loadStoryScene();
+}
+
+// ===== POST TEST =====
+function showPostTest() {
+  currentQuestion = 0;
+  score = 0;
+  showScreen('screen-quiz');
+  document.getElementById('quizGreeting').textContent = `مرحباً مجدداً يا ${playerName}! لنرى كم تعلّمت اليوم!`;
+  loadQuestion();
+  // Override result screen for post
+  window._isPostTest = true;
+}
+
+// ===== CONFETTI =====
+function confetti() {
+  const layer = document.getElementById('confetti-layer');
+  const colors = ['#1D9E75','#EF9F27','#E24B4A','#5DCAA5','#FAC775','#fff'];
+  for (let i = 0; i < 60; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    c.style.cssText = `
+      left:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${Math.random()*2+1.5}s;
+      animation-delay:${Math.random()*0.5}s;
+      width:${Math.random()*8+5}px;
+      height:${Math.random()*8+5}px;
+      border-radius:${Math.random()>0.5?'50%':'2px'};
+    `;
+    layer.appendChild(c);
+    setTimeout(() => c.remove(), 3000);
+  }
+}
+
+// ===== PRINT =====
+function printCard() {
+  const badge = score >= 4 ? 'ذهبي' : score >= 2 ? 'فضي' : 'برونزي';
+  alert(`🖨️ جاري طباعة بطاقة ${playerName}\nالنتيجة القبلية: ${score}/5 — ${badge}\n\n(في النظام الحقيقي ستُطبع بطاقة QR فعلية)`);
+}
+
+function printFinalCard() {
+  alert(`🖨️ جاري طباعة شهادة ${playerName}\nأنت الآن بطل الأمان السيبراني!\n\n(في النظام الحقيقي ستُطبع شهادة ملوّنة)`);
+}
+
+// ===== INIT =====
+createParticles();
+</script>
+</body>
+</html>
